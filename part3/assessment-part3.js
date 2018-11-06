@@ -12,9 +12,15 @@
 // with the animal as the context, and 'Trogdor' as a parameter.
 // return the result of your updateAnimal invocation
 
-// CODE HERE...
-
-
+function callBinding(magicAnimals, updateAnimal, id) {
+  // console.log(magicAnimals)
+  updateAnimal.call(
+    magicAnimals.filter((animal, index) => {
+      return animal[index] === id
+    })
+  )
+  return updateAnimal('Trogdor')
+}
 
 // *************
 // * PROBLEM 2 *
@@ -27,9 +33,14 @@
 // with the context of the animal, and the array ['being majestic', 'eating rainbows'] as a parameter.
 // return the result of your updateAnimal invocation
 
-// CODE HERE...
-
-
+function applyBinding(magicAnimals, updateAnimal, id) {
+  return updateAnimal.apply(
+    magicAnimals.filter(animal => {
+      return animal.id == id
+    })[0],
+    ['being majestic', 'eating rainbows']
+  )
+}
 
 // *************
 // * PROBLEM 3 *
@@ -45,11 +56,11 @@
 // After the timeout is completed, the promise should be resolved with the new updated foo variable.
 // NOTE: Manually invoking your function here will alter the 'foo' variable before tests run, causing them to fail.
 
-var foo;
+var foo
 
-// CODE HERE...
+// function promiseMe($q){
 
-
+// }
 
 // *************
 // * PROBLEM 4 *

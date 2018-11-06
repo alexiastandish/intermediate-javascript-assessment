@@ -34,21 +34,25 @@
 // In the second .then function you use, assign the third user object
 // to the variable 'thirdUser' (previously declared) and then return the tenth user object.
 
-var firstUser = 'don\'t touch this string!';
-var thirdUser = 'don\'t touch this string, either!';
+var firstUser = "don't touch this string!"
+var thirdUser = "don't touch this string, either!"
 
 function noWeakLink() {
-
   return $http({
     method: 'GET',
-    url: '/api/users'
+    url: '/api/users',
   })
-  // CODE HERE...
-
+    .then(function(response1) {
+      console.log('response1', response1)
+      firstUser = response1.data[0]
+      return response1
+    })
+    .then(function(response2) {
+      console.log('response2', response2)
+      thirdUser = response2.data[2]
+      return response2.data[9]
+    })
 }
-
-
-
 // *************
 // * PROBLEM 2 *
 // *************
@@ -67,15 +71,12 @@ function noWeakLink() {
 // 'My name is Horton and I am very heavy!' (The above instructions should make this work.  No code needed for this paragraph)
 
 var elephant = {
-  name: 'Horton'
+  name: 'Horton',
 }
 function large() {
-
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
-// CODE HERE...
-
-
+const boundToElephant = large.bind(elephant)
 
 // *************
 // * PROBLEM 3 *
@@ -87,9 +88,9 @@ function large() {
 // Use explicit binding to give capacity the context of crew
 // and return the bound function.
 
-// CODE HERE...
-
-
+function deathStar(capacity, crew) {
+  return capacity.bind(crew)
+}
 
 // *************
 // * PROBLEM 4 *
@@ -102,9 +103,11 @@ function large() {
 // The closure function will take in a parameter: liabilities (Number)
 // The closure function will return the combined value of assets and liabilities.
 
-// CODE HERE...
-
-
+function accountingOffice(assets) {
+  return function(liabilities) {
+    return assets + liabilities
+  }
+}
 
 // *************
 // * PROBLEM 5 *
@@ -127,9 +130,15 @@ function large() {
 //     remember: << array of items to be remembered >>
 // };
 
-// CODE HERE...
-
-
+function forgetter(name) {
+  const itemArr = []
+  console.log('name', name)
+  return function rememberall(item) {
+    console.log('item', item)
+    itemArr.push(item)
+    return { name: name, remember: itemArr }
+  }
+}
 
 // *************
 // * PROBLEM 6 *
@@ -155,4 +164,19 @@ function large() {
 
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
-// CODE HERE...
+function frodo(startingHungerValue, startingDangerValue) {
+  return {
+    dinnerOverFire: function() {
+      return {
+        hunger: (startingHungerValue = startingHungerValue <= 25 ? 0 : startingHungerValue - 25),
+        danger: (startingDangerValue = startingDangerValue >= 60 ? 100 : startingDangerValue + 40),
+      }
+    },
+    hidingInBush: function() {
+      return {
+        hunger: (startingHungerValue = startingHungerValue >= 65 ? 100 : startingHungerValue + 35),
+        danger: (startingDangerValue = startingDangerValue <= 80 ? 0 : startingDangerValue - 20),
+      }
+    },
+  }
+}
